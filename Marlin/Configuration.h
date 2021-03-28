@@ -88,10 +88,10 @@
 #define SHOW_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Bootscreen.h on startup.
-//#define SHOW_CUSTOM_BOOTSCREEN
+#define SHOW_CUSTOM_BOOTSCREEN
 
 // Show the bitmap in Marlin/_Statusscreen.h on the status screen.
-//#define CUSTOM_STATUS_SCREEN_IMAGE
+#define CUSTOM_STATUS_SCREEN_IMAGE
 
 // @section machine
 
@@ -103,8 +103,8 @@
  *
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
  */
-#define SERIAL_PORT 0
-
+#define SERIAL_PORT -1 
+ 
 /**
  * Select a secondary serial port on the board to use for communication with the host.
  * :[-1, 0, 1, 2, 3, 4, 5, 6, 7]
@@ -127,7 +127,7 @@
 
 // Choose the name from boards.h that matches your setup
 #ifndef MOTHERBOARD
-  #define MOTHERBOARD BOARD_RAMPS_14_EFB
+  #define MOTHERBOARD BOARD_CREALITY_V4
 #endif
 
 // Name displayed in the LCD "Ready" message and Info menu
@@ -423,7 +423,7 @@
 #define TEMP_SENSOR_5 0
 #define TEMP_SENSOR_6 0
 #define TEMP_SENSOR_7 0
-#define TEMP_SENSOR_BED 0
+#define TEMP_SENSOR_BED 1
 #define TEMP_SENSOR_PROBE 0
 #define TEMP_SENSOR_CHAMBER 0
 
@@ -460,7 +460,7 @@
 #define HEATER_5_MINTEMP   5
 #define HEATER_6_MINTEMP   5
 #define HEATER_7_MINTEMP   5
-#define BED_MINTEMP        5
+#define BED_MINTEMP        0
 
 // Above this temperature the heater will be switched off.
 // This can protect components from overheating, but NOT from shorts and failures.
@@ -473,7 +473,7 @@
 #define HEATER_5_MAXTEMP 275
 #define HEATER_6_MAXTEMP 275
 #define HEATER_7_MAXTEMP 275
-#define BED_MAXTEMP      150
+#define BED_MAXTEMP      125
 
 //===========================================================================
 //============================= PID Settings ================================
@@ -522,7 +522,7 @@
  * heater. If your configuration is significantly different than this and you don't understand
  * the issues involved, don't use bed PID until someone else verifies that your hardware works.
  */
-//#define PIDTEMPBED
+#define PIDTEMPBED
 
 //#define BED_LIMIT_SWITCHING
 
@@ -565,7 +565,7 @@
  * *** IT IS HIGHLY RECOMMENDED TO LEAVE THIS OPTION ENABLED! ***
  */
 #define PREVENT_COLD_EXTRUSION
-#define EXTRUDE_MINTEMP 170
+#define EXTRUDE_MINTEMP 180
 
 /**
  * Prevent a single extrusion longer than EXTRUDE_MAXLENGTH.
@@ -593,7 +593,7 @@
 
 #define THERMAL_PROTECTION_HOTENDS // Enable thermal protection for all extruders
 #define THERMAL_PROTECTION_BED     // Enable thermal protection for the heated bed
-#define THERMAL_PROTECTION_CHAMBER // Enable thermal protection for the heated chamber
+//#define THERMAL_PROTECTION_CHAMBER // Enable thermal protection for the heated chamber
 
 //===========================================================================
 //============================= Mechanical Settings =========================
@@ -741,14 +741,14 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 4000, 500 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 93 }
 
 /**
  * Default Max Feed Rate (mm/s)
  * Override with M203
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_FEEDRATE          { 300, 300, 5, 25 }
+#define DEFAULT_MAX_FEEDRATE          { 500, 500, 20, 120 }
 
 //#define LIMITED_MAX_FR_EDITING        // Limit edit via M203 or LCD to DEFAULT_MAX_FEEDRATE * 2
 #if ENABLED(LIMITED_MAX_FR_EDITING)
@@ -761,7 +761,7 @@
  * Override with M201
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_MAX_ACCELERATION      { 3000, 3000, 100, 10000 }
+#define DEFAULT_MAX_ACCELERATION      { 500, 500, 100, 1000 }
 
 //#define LIMITED_MAX_ACCEL_EDITING     // Limit edit via M201 or LCD to DEFAULT_MAX_ACCELERATION * 2
 #if ENABLED(LIMITED_MAX_ACCEL_EDITING)
@@ -802,7 +802,7 @@
   #endif
 #endif
 
-#define DEFAULT_EJERK    5.0  // May be used by Linear Advance
+#define DEFAULT_EJERK    15.0  // May be used by Linear Advance
 
 /**
  * Junction Deviation Factor
@@ -841,10 +841,10 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+//#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
-//#define USE_PROBE_FOR_Z_HOMING
+#define USE_PROBE_FOR_Z_HOMING
 
 /**
  * Z_MIN_PROBE_PIN
@@ -990,10 +990,10 @@
 
 // Most probes should stay away from the edges of the bed, but
 // with NOZZLE_AS_PROBE this can be negative for a wider probing area.
-#define PROBING_MARGIN 10
+#define PROBING_MARGIN 20
 
 // X and Y axis travel speed (mm/min) between probes
-#define XY_PROBE_SPEED (133*60)
+#define XY_PROBE_SPEED (100*60)
 
 // Feedrate (mm/min) for the first approach when double-probing (MULTIPLE_PROBING == 2)
 #define Z_PROBE_SPEED_FAST HOMING_FEEDRATE_Z
@@ -1035,11 +1035,11 @@
 #define Z_PROBE_LOW_POINT          -2 // Farthest distance below the trigger-point to go before stopping
 
 // For M851 give a range for adjusting the Z probe offset
-#define Z_PROBE_OFFSET_RANGE_MIN -20
-#define Z_PROBE_OFFSET_RANGE_MAX 20
+#define Z_PROBE_OFFSET_RANGE_MIN -10
+#define Z_PROBE_OFFSET_RANGE_MAX 10
 
 // Enable the M48 repeatability test to test probe accuracy
-//#define Z_MIN_PROBE_REPEATABILITY_TEST
+#define Z_MIN_PROBE_REPEATABILITY_TEST
 
 // Before deploy/stow pause for user confirmation
 //#define PAUSE_BEFORE_DEPLOY_STOW
@@ -1087,7 +1087,7 @@
 
 // Invert the stepper direction. Change (or reverse the motor connector) if an axis goes the wrong way.
 #define INVERT_X_DIR false
-#define INVERT_Y_DIR true
+#define INVERT_Y_DIR false
 #define INVERT_Z_DIR false
 
 // @section extruder
@@ -1388,8 +1388,8 @@
 #define Z_SAFE_HOMING
 
 #if ENABLED(Z_SAFE_HOMING)
-  #define Z_SAFE_HOMING_X_POINT X_CENTER  // X point for Z homing
-  #define Z_SAFE_HOMING_Y_POINT Y_CENTER  // Y point for Z homing
+  #define Z_SAFE_HOMING_X_POINT ((X_BED_SIZE - 10) / 2)    // X point for Z homing
+  #define Z_SAFE_HOMING_Y_POINT ((Y_BED_SIZE - 10) / 2)    // Y point for Z homing
 #endif
 
 // Homing speeds (mm/min)
@@ -1509,7 +1509,7 @@
 
 #define PREHEAT_2_LABEL       "ABS"
 #define PREHEAT_2_TEMP_HOTEND 240
-#define PREHEAT_2_TEMP_BED    110
+#define PREHEAT_2_TEMP_BED    100
 #define PREHEAT_2_FAN_SPEED     0 // Value from 0 to 255
 
 /**
@@ -1709,7 +1709,7 @@
  *
  * :['JAPANESE', 'WESTERN', 'CYRILLIC']
  */
-#define DISPLAY_CHARSET_HD44780 JAPANESE
+//#define DISPLAY_CHARSET_HD44780 JAPANESE
 
 /**
  * Info Screen Style (0:Classic, 1:Průša)
@@ -2072,7 +2072,9 @@
 // (For CR-10 owners who want to replace the Melzi Creality board but retain the display)
 //
 #define CR10_STOCKDISPLAY
-
+#if ENABLED(CR10_STOCKDISPLAY)
+  #define RET6_12864_LCD  // Specific to the SoC (can either be RET / VET)
+#endif
 //
 // Ender-2 OEM display, a variant of the MKS_MINI_12864
 //
